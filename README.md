@@ -18,7 +18,7 @@ Este proyecto contiene todo lo necesario para construir una imagen Docker que ej
 
 ---
 
-## 🚀 Despliegue local con Docker
+##  Despliegue local con Docker
 
 ### 1. Clona este repositorio
 
@@ -33,7 +33,7 @@ Edita el archivo `.env` y define las credenciales de acceso a la interfaz web:
 
 ```env
 NAGIOSADMIN_USER=nagiosadmin
-NAGIOSADMIN_PASSWORD=changeme123
+NAGIOSADMIN_PASSWORD=password
 ```
 
 ---
@@ -66,7 +66,7 @@ Ingresa las credenciales definidas en el archivo `.env`.
 
 ---
 
-## 🧪 Verifica el estado del contenedor
+##  Verifica el estado del contenedor
 
 ```bash
 docker ps
