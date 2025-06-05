@@ -4,7 +4,7 @@ Este proyecto contiene todo lo necesario para construir una imagen Docker que ej
 
 ---
 
-## 📁 Estructura del proyecto
+##  Estructura del proyecto
 
 ```
 .
@@ -80,7 +80,7 @@ docker logs nagios
 
 ---
 
-## 🧼 Detener y eliminar el contenedor
+##  Detener y eliminar el contenedor
 
 ```bash
 docker stop nagios
@@ -89,7 +89,7 @@ docker rm nagios
 
 ---
 
-## 📄 Licencia
+##  Licencia
 
 Este proyecto utiliza software open source bajo licencias GPLv2.  
 Más información en [https://www.nagios.org](https://www.nagios.org)
