@@ -1,34 +1,35 @@
 FROM ubuntu:24.04
-RUN apt update -y
-RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-RUN DEBIAN_FRONTEND=noninteractive 
-RUN apt install -y \
-	autoconf \
-	gcc \
-	libc6 \
-	make \
-	wget \
-	unzip \
-	apache2 \
-	apache2-utils \
-	php \
-	libapache2-mod-php \
-	libgd-dev \
-	libssl-dev \
-	libmcrypt-dev \
-	bc \
-	gawk \
-	dc \
-	build-essential \
-	snmp \
-	libnet-snmp-perl \
-	gettext \
-	fping \
-        iputils-ping \
-	qstat \
-	dnsutils \
-	smbclient
-# Construccion Nagios Core
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt update && apt install -y \
+    autoconf \
+    gcc \
+    libc6 \
+    make \
+    wget \
+    unzip \
+    apache2 \
+    apache2-utils \
+    php \
+    libapache2-mod-php \
+    libgd-dev \
+    libssl-dev \
+    bc \
+    gawk \
+    dc \
+    build-essential \
+    snmp \
+    libnet-snmp-perl \
+    gettext \
+    fping \
+    iputils-ping \
+    qstat \
+    dnsutils \
+    smbclient && \
+    apt clean
+
+# Construcción Nagios Core
 COPY nagios-4.4.9 /nagios-4.4.9
 WORKDIR /nagios-4.4.9
 RUN ./configure --with-httpd-conf=/etc/apache2/sites-enabled && \
@@ -42,23 +43,28 @@ RUN ./configure --with-httpd-conf=/etc/apache2/sites-enabled && \
     make install-config && \
     make install-webconf && \
     a2enmod rewrite cgi
-# Construccion Nagios Plugins
+
+# Construcción Nagios Plugins
 COPY nagios-plugins-2.4.2 /nagios-plugins-2.4.2
 WORKDIR /nagios-plugins-2.4.2
 RUN ./configure --with-nagios-user=nagios --with-nagios-group=nagios && \
     make && \
     make install
-# Construccion y Instalar NRPE Plugins
+
+# Instalación NRPE Plugin
 COPY nrpe-4.1.0 /nrpe-4.1.0
 WORKDIR /nrpe-4.1.0
 RUN ./configure && \
     make all && \
     make install-plugin
+
 WORKDIR /root
-# Copie las credenciales de autenticación básica de Nagios establecidas en el archivo env;
+
+# Copiar archivo de entorno
 COPY .env /usr/local/nagios/etc/
-# Agregar script de inicio de Nagios y Apache
+
+# Copiar script de arranque
 ADD start.sh /
 RUN chmod +x /start.sh
 
-CMD [ "/start.sh" ]
+CMD ["/start.sh"]
